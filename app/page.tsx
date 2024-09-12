@@ -1,101 +1,223 @@
-import Image from "next/image";
+"use client";
+
+import { useState, useEffect } from "react";
+import {
+  Bell,
+  Moon,
+  Paperclip,
+  Smile,
+  Send,
+  File,
+  Contact,
+  ChartArea,
+  MessageSquare,
+  Settings,
+  Sun,
+} from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [isDarkMode, setIsDarkMode] = useState(true);
+  const [message, setMessage] = useState("");
+  const [attachments] = useState([]);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+  useEffect(() => {
+    document.body.className = isDarkMode ? "dark" : "light";
+  }, [isDarkMode]);
+
+  const toggleTheme = () => setIsDarkMode(!isDarkMode);
+
+  const handleSendMessage = () => {
+    if (message.trim() !== "") {
+      console.log("Mensagem enviada:", message);
+      setMessage("");
+    }
+  };
+
+  // const handleAttachment = (event) => {
+  //   const files = Array.from(event.target.files);
+  //   setAttachments([...attachments, ...files]);
+  // };
+
+  const handleEmojiClick = () => {
+    // Aqui você pode implementar um seletor de emoji
+    console.log("Seletor de emoji clicado");
+  };
+
+  return (
+    <div
+      className={`flex h-screen ${
+        isDarkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-black"
+      }`}
+    >
+      {/* Sidebar */}
+      <div className={`w-64 ${isDarkMode ? "bg-gray-800" : "bg-gray-200"} p-4`}>
+        <h1 className="text-xl font-bold mb-4">Workers</h1>
+        <div className="space-y-2">
+          <Button variant="ghost" className="w-full justify-start">
+            <File className="mr-2 h-4 w-4" />
+            Resumo
+          </Button>
+          <Button variant="ghost" className="w-full justify-start">
+            <Contact className="mr-2 h-4 w-4" />
+            Contatos
+          </Button>
+          <Button variant="ghost" className="w-full justify-start">
+            <ChartArea className="mr-2 h-4 w-4" />
+            Estatísticas
+          </Button>
+          <Button
+            variant="ghost"
+            className="w-full justify-start bg-yellow-500 text-gray-900"
           >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            <MessageSquare className="mr-2 h-4 w-4" />
+            Chats
+          </Button>
+          <Button variant="ghost" className="w-full justify-start">
+            <Settings className="mr-2 h-4 w-4" />
+            Configurações
+          </Button>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+        <div className="mt-8">
+          <Button variant="outline" className="w-full mb-2">
+            Todos (35)
+          </Button>
+          <Button variant="ghost" className="w-full justify-start">
+            Live Chat (2)
+          </Button>
+          <Button variant="ghost" className="w-full justify-start">
+            Arquivados
+          </Button>
+          <Button variant="ghost" className="w-full justify-start">
+            Bloqueados
+          </Button>
+          <Button variant="ghost" className="w-full justify-start">
+            Lixeira
+          </Button>
+        </div>
+      </div>
+
+      {/* Main Chat Area */}
+      <div className="flex-1 flex flex-col">
+        <header
+          className={`${
+            isDarkMode ? "bg-gray-800" : "bg-gray-200"
+          } p-4 flex justify-between items-center`}
         >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
+          <Input
+            type="text"
+            placeholder="Pesquisar"
+            className={`w-64 ${isDarkMode ? "bg-gray-700" : "bg-white"}`}
           />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+          <div className="flex items-center space-x-4">
+            <Button onClick={toggleTheme} variant="ghost" size="icon">
+              {isDarkMode ? (
+                <Sun className="h-5 w-5" />
+              ) : (
+                <Moon className="h-5 w-5" />
+              )}
+            </Button>
+            <Bell className="h-5 w-5" />
+            <Avatar>
+              <AvatarImage src="/placeholder-avatar.jpg" />
+              <AvatarFallback>JD</AvatarFallback>
+            </Avatar>
+          </div>
+        </header>
+        <div className="flex-1 overflow-y-auto p-4 space-y-4">
+          <div className="flex items-start space-x-2">
+            <Avatar>
+              <AvatarImage src="/placeholder-avatar.jpg" />
+              <AvatarFallback>HD</AvatarFallback>
+            </Avatar>
+            <div
+              className={`${
+                isDarkMode ? "bg-gray-700" : "bg-gray-300"
+              } rounded-lg p-2 max-w-md`}
+            >
+              <p className="text-sm">Olá, como eu posso te ajudar hoje?</p>
+            </div>
+          </div>
+          <div className="flex items-start space-x-2 justify-end">
+            <div className="bg-blue-600 rounded-lg p-2 max-w-md">
+              <p className="text-sm">
+                Estou com probleamas para acessar o sistema. Pode me ajudar?
+              </p>
+            </div>
+            <Avatar>
+              <AvatarImage src="/placeholder-avatar.jpg" />
+              <AvatarFallback>ME</AvatarFallback>
+            </Avatar>
+          </div>
+        </div>
+        <div className={`p-4 ${isDarkMode ? "bg-gray-800" : "bg-gray-200"}`}>
+          <div className="flex items-center space-x-2">
+            <Input
+              type="text"
+              placeholder="Escreva uma mensagem..."
+              className={`flex-1 ${isDarkMode ? "bg-gray-700" : "bg-white"}`}
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              onKeyPress={(e) => e.key === "Enter" && handleSendMessage()}
+            />
+            <label htmlFor="file-upload">
+              <Button size="icon" variant="ghost">
+                <Paperclip className="h-5 w-5" />
+              </Button>
+            </label>
+            <input id="file-upload" type="file" multiple className="hidden" />
+            <Button size="icon" variant="ghost" onClick={handleEmojiClick}>
+              <Smile className="h-5 w-5" />
+            </Button>
+            <Button size="icon" onClick={handleSendMessage}>
+              <Send className="h-5 w-5" />
+            </Button>
+          </div>
+          {attachments.length > 0 && (
+            <div className="mt-2">
+              <p>Anexos:</p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Right Panel */}
+      <div className={`w-64 ${isDarkMode ? "bg-gray-800" : "bg-gray-200"} p-4`}>
+        <div className="text-center mb-4">
+          <Avatar className="w-20 h-20 mx-auto mb-2">
+            <AvatarImage src="/placeholder-avatar.jpg" />
+            <AvatarFallback>HD</AvatarFallback>
+          </Avatar>
+          <h2 className="font-bold">Help Desk Agent</h2>
+          <p
+            className={`text-sm ${
+              isDarkMode ? "text-gray-400" : "text-gray-600"
+            }`}
+          >
+            Online
+          </p>
+        </div>
+        <div className="space-y-2">
+          <Button variant="outline" className="w-full">
+            Chamadas
+          </Button>
+          <Button variant="outline" className="w-full">
+            Vídeos
+          </Button>
+          <Button variant="outline" className="w-full">
+            Profile
+          </Button>
+        </div>
+        <div className="mt-8">
+          <h3 className="font-bold mb-2">Anexos</h3>
+        </div>
+        <div className="mt-4">
+          <h3 className="font-bold mb-2">Agendamentos</h3>
+          {/* Add appointment items here */}
+        </div>
+      </div>
     </div>
   );
 }
